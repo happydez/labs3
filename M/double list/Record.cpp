@@ -25,6 +25,6 @@ string Record::FullName() const {
 }
 
  std::ostream& operator<<(std::ostream& out, const Record& r) {
-	 out << r.FullName() << " | " << r.Year << "." << ((r.Month < 10) ? "0" : "") << r.Month << "." << ((r.Day < 10) ? "0" : "") << r.Day << " | " << r.Size << " αΰις";
+	 out << r.FullName() << " | " << r.Year << "." << ((r.Month < 10) ? "0" : "") << r.Month << "." << ((r.Day < 10) ? "0" : "") << r.Day << " | " << r.Size << " Π±Π°ΠΉΡ‚";
 	 return out;
  }
