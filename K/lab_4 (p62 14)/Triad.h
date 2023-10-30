@@ -19,32 +19,30 @@ class Triad {
 		int Second() const;
 		int Third() const;
 
-		virtual Triad operator+(const Triad&);
-		virtual Triad operator-(const Triad&);
-		virtual Triad operator*(const Triad&);
-		virtual Triad operator/(const Triad&);
+		Triad* operator+(const Triad&);
+		Triad* operator-(const Triad&);
+		Triad* operator*(const Triad&);
+		Triad* operator/(const Triad&);
+			 
+		Triad* operator+(const int& n);
+		Triad* operator-(const int& n);
+		Triad* operator*(const int& n);
+		Triad* operator/(const int& n);
 
-		virtual Triad operator+(const int& n);
-		virtual Triad operator-(const int& n);
-		virtual Triad operator*(const int& n);
-		virtual Triad operator/(const int& n);
+		Triad& operator++();
+		Triad& operator--();
+		Triad* operator++(int);
+		Triad* operator--(int);
 
-		virtual Triad& operator++();
-		virtual Triad& operator--();
-
-		virtual Triad operator++(int);
-		virtual Triad operator--(int);
-
-		virtual bool operator>(const Triad&);
-		virtual bool operator>=(const Triad&);
-
-		virtual bool operator<(const Triad&);
-		virtual bool operator<=(const Triad&);
+		bool operator>(const Triad&);
+		bool operator>=(const Triad&);
+		bool operator<(const Triad&);
+		bool operator<=(const Triad&);
 
 		bool operator==(const Triad&);
 		bool operator!=(const Triad&);
 
-		virtual string ToString() const;
+		string ToString() const;
 
 		friend istream& operator>>(istream&, Triad&);
 		friend ostream& operator<<(ostream&, const Triad&);

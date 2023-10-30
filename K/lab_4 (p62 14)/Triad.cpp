@@ -26,36 +26,36 @@ string Triad::ToString() const {
 	return std::to_string(n1) + " " + std::to_string(n2) + " " + std::to_string(n3);
 }
 
-Triad Triad::operator+(const Triad& t) {
-	return Triad(n1 + t.n1, n2 + t.n2, n3 + t.n3);
+Triad* Triad::operator+(const Triad& t) {
+	return new Triad(n1 + t.n1, n2 + t.n2, n3 + t.n3);
 }
 
-Triad Triad::operator-(const Triad& t) {
-	return Triad(n1 - t.n1, n2 - t.n2, n3 - t.n3);
+Triad* Triad::operator-(const Triad& t) {
+	return new Triad(n1 - t.n1, n2 - t.n2, n3 - t.n3);
 }
 
-Triad Triad::operator*(const Triad& t) {
-	return Triad(n1 * t.n1, n2 * t.n2, n3 * t.n3);
+Triad* Triad::operator*(const Triad& t) {
+	return new Triad(n1 * t.n1, n2 * t.n2, n3 * t.n3);
 }
 
-Triad Triad::operator/(const Triad& t) {
-	return Triad((t.n1 == 0) ? 0 : n1 / t.n1, (t.n2 == 0) ? 0 : n2 / t.n2, (t.n3 == 0) ? 0 : n3 / t.n3);
+Triad* Triad::operator/(const Triad& t) {
+	return new Triad((t.n1 == 0) ? 0 : n1 / t.n1, (t.n2 == 0) ? 0 : n2 / t.n2, (t.n3 == 0) ? 0 : n3 / t.n3);
 }
 
-Triad Triad::operator+(const int& n) {
-	return Triad(n1 + n, n2 + n, n3 + n);
+Triad* Triad::operator+(const int& n) {
+	return new Triad(n1 + n, n2 + n, n3 + n);
 }
 
-Triad Triad::operator-(const int& n) {
-	return Triad(n1 - n, n2 - n, n3 - n);
+Triad* Triad::operator-(const int& n) {
+	return new Triad(n1 - n, n2 - n, n3 - n);
 }
 
-Triad Triad::operator*(const int& n) {
-	return Triad(n1 * n, n2 * n, n3 * n);
+Triad* Triad::operator*(const int& n) {
+	return new Triad(n1 * n, n2 * n, n3 * n);
 }
 
-Triad Triad::operator/(const int& n) {
-	return Triad((n == 0) ? 0 : n1 / n, (n == 0) ? 0 : n2 / n, (n == 0) ? 0 : n3 / n);
+Triad* Triad::operator/(const int& n) {
+	return new Triad((n == 0) ? 0 : n1 / n, (n == 0) ? 0 : n2 / n, (n == 0) ? 0 : n3 / n);
 }
 
 Triad& Triad::operator++() {
@@ -63,10 +63,10 @@ Triad& Triad::operator++() {
 	return *this;
 }
 
-Triad Triad::operator++(int) {
+Triad* Triad::operator++(int) {
 	Triad triad(n1, n2, n3);
 	n1++; n2++; n3++;
-	return triad;
+	return &triad;
 }
 
 Triad& Triad::operator--() {
@@ -74,10 +74,10 @@ Triad& Triad::operator--() {
 	return *this;
 }
 
-Triad Triad::operator--(int) {
+Triad* Triad::operator--(int) {
 	Triad triad(n1, n2, n3);
 	n1--; n2--; n3--;
-	return triad;
+	return &triad;
 }
 
 bool Triad::operator==(const Triad& t) {

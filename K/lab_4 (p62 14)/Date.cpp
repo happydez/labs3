@@ -10,12 +10,6 @@ Date::Date(string date) {
     n3 = atoi(date.substr(8, 10).c_str());
 }
 
-Date::Date(const Triad& triad) {
-    n1 = triad.First();
-    n2 = triad.Second();
-    n3 = triad.Third();
-}
-
 int Date::DaysInMonth(int year, int month) {
 	auto days = new int[12] {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 	if (IsLeapYear(year) && month == 2) return 29;
@@ -23,60 +17,90 @@ int Date::DaysInMonth(int year, int month) {
 }
 
 void Date::AddDays(int days) {
-    addToDate(0, 0, days);
+    Triad triad = Triad(n1, n2, n3 + days);
+    Date newDate;
+    newDate.addToDate(triad.First(), triad.Second(), triad.Third());
+    n1 = newDate.First();
+    n2 = newDate.Second();
+    n3 = newDate.Third();
 }
 
 void Date::SubDays(int days) {
-    addToDate(0, 0, -days);
+    Triad triad = Triad(n1, n2, n3 - days);
+    Date newDate;
+    newDate.addToDate(triad.First(), triad.Second(), triad.Third());
+    n1 = newDate.First();
+    n2 = newDate.Second();
+    n3 = newDate.Third();
 }
 
-Triad Date::operator+(const Triad& t) {
-    Date newDate = Date(n1, n2, n3);
-    newDate.addToDate(t.First(), t.Second(), t.Third());
+Date* Date::operator+(const Date& t) {
+    Triad t1 = Triad(n1, n2, n3);
+    Triad t2 = Triad(t.n1, t.n2, t.n3);
+    auto t3 = t1 + t2;
+    Date newDate = Date(t3->First(), t3->Second(), t3->Third());
+    return new Date(newDate.n1, newDate.n2, newDate.n3);
+}
+
+Date* Date::operator-(const Date& t) {
+    Triad t1 = Triad(n1, n2, n3);
+    Triad t2 = Triad(t.n1, t.n2, t.n3);
+    auto t3 = t1 - t2;
+    Date newDate = Date(t3->First(), t3->Second(), t3->Third());
+    return new Date(newDate.n1, newDate.n2, newDate.n3);
+}
+
+Date* Date::operator+(const int& i) {
+    Triad triad = Triad(n1, n2, n3);
+    auto newTriad = triad + i;
+    Date newDate;
+    newDate.addToDate(newTriad->First(), newTriad->Second(), newTriad->Third());
+    return new Date(newDate.n1, newDate.n2, newDate.n3);
+}
+
+Date* Date::operator-(const int& i) {
+    Triad triad = Triad(n1, n2, n3); 
+    auto newTriad = triad - i;
+    Date newDate;
+    newDate.addToDate(newTriad->First(), newTriad->Second(), newTriad->Third());
+    return new Date(newDate.n1, newDate.n2, newDate.n3);
+}
+
+Date& Date::operator++() {
+    Triad t = Triad(n1, n2, n3);
+    ++t;
+    Date newDate = Date(t.First(), t.Second(), t.Third());
     return newDate;
 }
 
-Triad Date::operator-(const Triad& t) {
-    Date newDate = Date(n1, n2, n3);
-    newDate.addToDate(-t.First(), -t.Second(), -t.Third());
+Date& Date::operator--() {
+    Triad t = Triad(n1, n2, n3);
+    --t;
+    Date newDate = Date(t.First(), t.Second(), t.Third());
     return newDate;
 }
 
-Triad Date::operator+(const int& i) {
-    Date newDate = Date(n1, n2, n3);
-    newDate.addToDate(i, i, i);
-    return newDate;
-}
-
-Triad Date::operator-(const int& i) {
-    Date newDate = Date(n1, n2, n3);
-    newDate.addToDate(-i, -i, -i);
-    return newDate;
-}
-
-Triad& Date::operator++() {
-    this->addToDate(1, 1, 1);
-    return *this;
-}
-
-Triad& Date::operator--() {
-    this->addToDate(-1, -1, -1);
-    return *this;
-}
-
-Triad Date::operator++(int) {
+Date* Date::operator++(int) {
     Date temp = *this;
-    this->addToDate(1, 1, 1);
-    return static_cast<Triad>(temp);
+    Triad t = Triad(n1, n2, n3);
+    t++;
+    n1 = t.First();
+    n2 = t.Second();
+    n3 = t.Third();
+    return new Date(temp.n1, temp.n2, temp.n3);
 }
 
-Triad Date::operator--(int) {
+Date* Date::operator--(int) {
     Date temp = *this;
-    this->addToDate(-1, -1, -1);
-    return static_cast<Triad>(temp);
+    Triad t = Triad(n1, n2, n3);
+    t--;
+    n1 = t.First();
+    n2 = t.Second();
+    n3 = t.Third();
+    return new Date(temp.n1, temp.n2, temp.n3);
 }
 
-bool Date::operator>(const Triad& t) {
+bool Date::operator>(const Date& t) {
     if (n1 < t.First()) {
         if (n2 < t.Second()) {
             if (n3 < t.Third()) {
@@ -88,16 +112,30 @@ bool Date::operator>(const Triad& t) {
     return true;
 }
 
-bool Date::operator>=(const Triad& t) {
+bool Date::operator>=(const Date& t) {
     return (*this == t) || (*this > t);
 }
 
-bool Date::operator<(const Triad& t) {
+bool Date::operator<(const Date& t) {
     return !(*this >= t);
 }
 
-bool Date::operator<=(const Triad& t) {
+bool Date::operator<=(const Date& t) {
     return (*this == t) || (*this < t);
+}
+
+bool Date::operator==(const Date& d) {
+    Triad t1 = Triad(n1, n2, n3);
+    Triad t2 = Triad(d.n1, d.n2, d.n3);
+
+    return t1 == t2;
+}
+
+bool Date::operator!=(const Date& d) {
+    Triad t1 = Triad(n1, n2, n3);
+    Triad t2 = Triad(d.n1, d.n2, d.n3);
+
+    return !(t1 == t2);
 }
 
 bool Date::IsLeapYear(int year) {
@@ -145,5 +183,5 @@ istream& operator>>(istream& in, Date& date) {
 }
 
 ostream& operator<<(ostream& out, const Date& date) {
-    return out << static_cast<const Triad&>(date);
+    return out << date.ToString();
 }

@@ -53,11 +53,14 @@ int main() {
             cout << "date 1: " << d1 << endl;
             cout << "date 2: " << d2 << endl;
 
-            Date temp = d1 - d2;
-            cout << "date 1 - date 2: " << temp << endl;
+            Date* temp = d1 - d2;
+            cout << "date 1 - date 2: " << *temp << endl;
 
             temp = d1 + d2;
-            cout << "date 1 + date 2: " << temp << endl;
+            cout << "date 1 + date 2: " << *temp << endl;
+
+            delete temp;
+
             break;
         }
         default:

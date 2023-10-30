@@ -6,15 +6,9 @@ class Date : public Triad {
 	private:
 		void addToDate(int years, int months, int days);
 
-		Triad operator*(const Triad&);
-		Triad operator/(const Triad&);
-		Triad operator*(const int& n);
-		Triad operator/(const int& n);
-
 	public:
 		Date();
 		Date(string date);
-		Date(const Triad& triad);
 		Date(int years, int months, int days);
 
 		static bool IsLeapYear(int year);
@@ -23,25 +17,28 @@ class Date : public Triad {
 		void AddDays(int days);
 		void SubDays(int days);
 
-		Triad operator+(const Triad& t) override;
-		Triad operator-(const Triad& t) override; 
+		Date* operator+(const Date& t);
+		Date* operator-(const Date& t);
 
-		Triad operator+(const int& n) override;
-		Triad operator-(const int& n) override;
+		Date* operator+(const int& n);
+		Date* operator-(const int& n);
 
-		Triad& operator++() override;
-		Triad& operator--() override;
+		Date& operator++();
+		Date& operator--();
 
-		Triad operator++(int) override;
-		Triad operator--(int) override;
+		Date* operator++(int);
+		Date* operator--(int);
 
-		bool operator>(const Triad&) override;
-		bool operator>=(const Triad&) override;
+		bool operator>(const Date&);
+		bool operator>=(const Date&);
 
-		bool operator<(const Triad&) override;
-		bool operator<=(const Triad&) override;
+		bool operator<(const Date&);
+		bool operator<=(const Date&);
 
-		string ToString() const override;
+		bool operator==(const Date&);
+		bool operator!=(const Date&);
+
+		string ToString() const;
 
 		friend istream& operator>>(istream& in, Date& date);
 		friend ostream& operator<<(ostream& out, const Date& date);
