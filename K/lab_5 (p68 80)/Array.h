@@ -13,7 +13,7 @@ class Array {
 	public:
 		Array();
 		Array(int cap);
-		~Array();
+		virtual ~Array();
 
 		int At(int index) const;
 		int Count() const;
@@ -22,7 +22,7 @@ class Array {
 		void Add(int value);
 		void Remove(int value);
 
-		virtual void Foreach() = 0;
+		virtual double* Foreach() = 0;
 		virtual void Addition(const Array& other) = 0;
 
 		static void Sort(Array* array);
@@ -38,7 +38,7 @@ class SortArray : public Array {
 		SortArray();
 		SortArray(int cap);
 
-		void Foreach() override;
+		double* Foreach() override;
 		void Addition(const Array& other) override;
 };
 
@@ -47,6 +47,6 @@ public:
 	XorArray();
 	XorArray(int cap);
 
-	void Foreach() override;
+	double* Foreach() override;
 	void Addition(const Array& other) override;
 };

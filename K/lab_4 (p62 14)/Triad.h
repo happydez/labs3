@@ -23,21 +23,11 @@ class Triad {
 		Triad* operator-(const Triad&);
 		Triad* operator*(const Triad&);
 		Triad* operator/(const Triad&);
-			 
-		Triad* operator+(const int& n);
-		Triad* operator-(const int& n);
-		Triad* operator*(const int& n);
-		Triad* operator/(const int& n);
 
 		Triad& operator++();
 		Triad& operator--();
-		Triad* operator++(int);
-		Triad* operator--(int);
-
-		bool operator>(const Triad&);
-		bool operator>=(const Triad&);
-		bool operator<(const Triad&);
-		bool operator<=(const Triad&);
+		Triad operator++(int);
+		Triad operator--(int);
 
 		bool operator==(const Triad&);
 		bool operator!=(const Triad&);

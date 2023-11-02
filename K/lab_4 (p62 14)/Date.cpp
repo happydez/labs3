@@ -16,94 +16,56 @@ int Date::DaysInMonth(int year, int month) {
 	return days[month - 1];
 }
 
-void Date::AddDays(int days) {
-    Triad triad = Triad(n1, n2, n3 + days);
-    Date newDate;
-    newDate.addToDate(triad.First(), triad.Second(), triad.Third());
-    n1 = newDate.First();
-    n2 = newDate.Second();
-    n3 = newDate.Third();
+Date Date::AddDays(int days) {
+    Date newDate = Date(n1, n2, n3);
+    newDate.addToDate(0, 0, days);
+    return newDate;
 }
 
-void Date::SubDays(int days) {
-    Triad triad = Triad(n1, n2, n3 - days);
-    Date newDate;
-    newDate.addToDate(triad.First(), triad.Second(), triad.Third());
-    n1 = newDate.First();
-    n2 = newDate.Second();
-    n3 = newDate.Third();
+Date Date::SubDays(int days) {
+    Date newDate = Date(n1, n2, n3);
+    newDate.addToDate(0, 0, -days);
+    return newDate;
 }
 
 Date* Date::operator+(const Date& t) {
-    Triad t1 = Triad(n1, n2, n3);
-    Triad t2 = Triad(t.n1, t.n2, t.n3);
-    auto t3 = t1 + t2;
-    Date newDate = Date(t3->First(), t3->Second(), t3->Third());
-    return new Date(newDate.n1, newDate.n2, newDate.n3);
+    Date* d = static_cast<Date*>(Triad::operator+(t));
+    d->normalize();
+    return d;
 }
 
 Date* Date::operator-(const Date& t) {
-    Triad t1 = Triad(n1, n2, n3);
-    Triad t2 = Triad(t.n1, t.n2, t.n3);
-    auto t3 = t1 - t2;
-    Date newDate = Date(t3->First(), t3->Second(), t3->Third());
-    return new Date(newDate.n1, newDate.n2, newDate.n3);
-}
-
-Date* Date::operator+(const int& i) {
-    Triad triad = Triad(n1, n2, n3);
-    auto newTriad = triad + i;
-    Date newDate;
-    newDate.addToDate(newTriad->First(), newTriad->Second(), newTriad->Third());
-    return new Date(newDate.n1, newDate.n2, newDate.n3);
-}
-
-Date* Date::operator-(const int& i) {
-    Triad triad = Triad(n1, n2, n3); 
-    auto newTriad = triad - i;
-    Date newDate;
-    newDate.addToDate(newTriad->First(), newTriad->Second(), newTriad->Third());
-    return new Date(newDate.n1, newDate.n2, newDate.n3);
+    Date* d = static_cast<Date*>(Triad::operator-(t));
+    d->normalize();
+    return d;
 }
 
 Date& Date::operator++() {
-    Triad t = Triad(n1, n2, n3);
-    ++t;
-    Date newDate = Date(t.First(), t.Second(), t.Third());
-    return newDate;
+    Triad::operator++();
+    return *this;
 }
 
 Date& Date::operator--() {
-    Triad t = Triad(n1, n2, n3);
-    --t;
-    Date newDate = Date(t.First(), t.Second(), t.Third());
-    return newDate;
+    Triad::operator--();
+    return *this;
 }
 
-Date* Date::operator++(int) {
+Date Date::operator++(int) {
     Date temp = *this;
-    Triad t = Triad(n1, n2, n3);
-    t++;
-    n1 = t.First();
-    n2 = t.Second();
-    n3 = t.Third();
-    return new Date(temp.n1, temp.n2, temp.n3);
+    Triad::operator++(0);
+    return temp;
 }
 
-Date* Date::operator--(int) {
+Date Date::operator--(int) {
     Date temp = *this;
-    Triad t = Triad(n1, n2, n3);
-    t--;
-    n1 = t.First();
-    n2 = t.Second();
-    n3 = t.Third();
-    return new Date(temp.n1, temp.n2, temp.n3);
+    Triad::operator--(0);
+    return temp;
 }
 
 bool Date::operator>(const Date& t) {
-    if (n1 < t.First()) {
-        if (n2 < t.Second()) {
-            if (n3 < t.Third()) {
+    if (n1 < t.n1) {
+        if (n2 < t.n2) {
+            if (n3 < t.n3) {
                 return false;
             }
         }
@@ -125,21 +87,23 @@ bool Date::operator<=(const Date& t) {
 }
 
 bool Date::operator==(const Date& d) {
-    Triad t1 = Triad(n1, n2, n3);
-    Triad t2 = Triad(d.n1, d.n2, d.n3);
-
-    return t1 == t2;
+    return Triad::operator==(d);
 }
 
 bool Date::operator!=(const Date& d) {
-    Triad t1 = Triad(n1, n2, n3);
-    Triad t2 = Triad(d.n1, d.n2, d.n3);
-
-    return !(t1 == t2);
+    return !(*this == d);
 }
 
 bool Date::IsLeapYear(int year) {
     return ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0);
+}
+
+void Date::normalize() {
+    Date normalizedDate;
+    normalizedDate.addToDate(n1, n2, n3);
+    n1 = normalizedDate.n1;
+    n2 = normalizedDate.n2;
+    n3 = normalizedDate.n3;
 }
 
 void Date::addToDate(int years, int months, int days) {

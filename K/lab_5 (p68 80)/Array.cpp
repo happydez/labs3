@@ -151,8 +151,15 @@ SortArray::SortArray() : Array() {}
 
 SortArray::SortArray(int cap) : Array(cap) {}
 
-void SortArray::Foreach() {
+double* SortArray::Foreach() {
 	Array::Sort(this);
+
+	double* newData = new double[Count()];
+	for (int i = 0; i < Count(); i++) {
+		newData[i] = data[i];
+	}
+
+	return newData;
 }
 
 void SortArray::Addition(const Array& other) {
@@ -168,10 +175,18 @@ XorArray::XorArray() : Array() {}
 
 XorArray::XorArray(int cap) : Array(cap) {}
 
-void XorArray::Foreach() {
-	for (int i = 0; i < size; i++) {
-		data[i] = (int)sqrt((double)data[i]);
+double* XorArray::Foreach() {
+	double* newData = new double[Count()];
+
+	for (int i = 0; i < Count(); i++) {
+		if (data[i] < 0) {
+			newData[i] = data[i];
+			continue;
+		}
+		newData[i] = (int)sqrt((double)data[i]);
 	}
+
+	return newData;
 }
 
 void XorArray::Addition(const Array& other) {
