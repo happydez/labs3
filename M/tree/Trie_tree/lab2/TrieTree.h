@@ -61,7 +61,7 @@ private:
 	}
 
 	void removeHelper(TrieTreeNode* root, string& word) {
-		if (searchHelper(root, word)) {
+		if (searchHelper(root, word)->isTerminal) {
 			TrieTreeNode* currentNode = root;
 
 			for (int i = 0; i < word.length(); i++) {
