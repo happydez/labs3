@@ -112,7 +112,7 @@ private:
         }
     }
 
-    AVLNode* removeHelper(AVLNode* root, int data) {
+    AVLNode* removeHelper(AVLNode*& root, int data) {
         if (root == nullptr) {
             return root;
         }
