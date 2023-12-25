@@ -96,19 +96,19 @@ private:
         int bf = balanceFactor(p);
 
         if (bf == -2) {
-            if (balanceFactor(root->left) > 0) {
-                root->left = rotateLeft(root->left);
+            if (balanceFactor(p->left) > 0) {
+                p->left = rotateLeft(p->left);
             }
 
-            root = rotateRight(root);
+            p = rotateRight(p);
         }
 
         if (bf == 2) {
-            if (balanceFactor(root->right) < 0) {
-                root->right = rotateRight(root->right);
+            if (balanceFactor(p->right) < 0) {
+                p->right = rotateRight(p->right);
             }
 
-            root = rotateLeft(root);
+            p = rotateLeft(p);
         }
     }
 
@@ -162,6 +162,19 @@ private:
 
     }
 
+    bool isBalanced(AVLNode* node) {
+        if (node == nullptr) {
+            return true;
+        }
+
+        int bf = balanceFactor(node);
+        if (abs(bf) == 2) {
+            return false;
+        }
+
+        return isBalanced(node->left) && isBalanced(node->right);
+    }
+
     void printHelper(AVLNode* node, int indent) {
         const int spacesPerLevel = 4;
 
@@ -171,7 +184,7 @@ private:
 
         printHelper(node->right, indent + spacesPerLevel);
 
-        cout << setw(indent) << "" << node->data << endl;
+        cout << string(indent, ' ') << " --- " << node->data << endl;
 
         printHelper(node->left, indent + spacesPerLevel);
     }
@@ -234,5 +247,9 @@ public:
 
     int Minimum() {
         return this->minimum(root)->data;
+    }
+
+    bool IsBalanced() {
+        return isBalanced(root);
     }
 };
